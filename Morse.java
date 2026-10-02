@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 public class Morse {
 
-int maximo = 0;
+int maximo = 0; // quantidade de nó para a busca de listas.
 
      // Classe interna para representar um nó da lista
     class No {
         String dado; // Valor armazenado no nó
-        String dadoLetra; // Valor armazenado no nó
+        String dadoLetra; // Valor da letra do morse
         No proximo; // Referência para o próximo nó
 
         No esquerda; // Referência para o próximo nó
@@ -29,47 +29,48 @@ int maximo = 0;
     No inicio = null; 
     public void insereElemento(String elemento, String letra) {
          
-        String[] palavras = elemento.split(" ");
-        String[] letras = letra.split("");
+        String[] palavras = elemento.split(" "); //divide o elemento utilizando o espaço para indicar onde separa
+        String[] letras = letra.split(""); // divide as letras.
 
         try{
-			if (palavras.length != letras.length);		
+			if (palavras.length != letras.length);		// vê se a quantidade de morse digitado é a mesma que as letras.
 
 		}catch(Exception e){
-            System.out.print("morse e letra não possuem o mesmo tamanho");
+            System.out.print("morse ou letra não possuem o mesmo tamanho");
 
 			menu();
 		}
     
-        for (int k = 0; k < palavras.length; k++) {  
+        for (int k = 0; k < palavras.length; k++) {   // for para cada palavra do morse
             No novoNo = new No(palavras[k], letras[k]); 
 
-             if (inicio == null) {
+             if (inicio == null) { // se inicio for vazio adicionar no inicio
                     
                 inicio = novoNo;
-                maximo += 1; 
+                maximo += 1; // aumenta a quantidade de nó para a busca.
                 } else {
                     
                 No atual = inicio;
                 
                 
             
-            for(int i = 0; i < palavras[k].length(); i ++){     
+            for(int i = 0; i < palavras[k].length(); i ++){      //caso não, para cada ponto e traço no morse...
 
-                if (palavras[k].charAt(i) == '.') { 
+                if (palavras[k].charAt(i) == '.') {  // se for ponto vá para a esquerda se for nulo adionar ali, se não vá para o proximo.
                     if (atual.esquerda == null) {
                         atual.esquerda = novoNo; 
-                        maximo += 1;
+                        maximo += 1; // aumenta a quantidade de nó para a busca.
                         
                         break;
                     }
                     atual = atual.esquerda; 
                 } 
+               
 
-                if (palavras[k].charAt(i) == '-'){
+                if (palavras[k].charAt(i) == '-'){  // Se for traço, vai para a direita se for  nulo adionar ali, se não vá para o proximo.
                     if (atual.direita == null) {
                         atual.direita = novoNo; 
-                        maximo += 1;
+                        maximo += 1; // aumenta a quantidade de nó para a busca.
                         
                         break;
                     }
@@ -88,33 +89,38 @@ int maximo = 0;
 
 
 public void exibeLista() {
+    // Array estático (vetor normal) para funcionar como pilha
     No[] pilha = new No[maximo];
-    int topo = -1; 
+    int topo = -1; // topo da pilha, - 1 é lista vazia
 
     No atual = inicio;
 
     String esq;
     String dir;
 
-    if(topo == maximo - 1){
+    if(topo == maximo - 1){ // vê se a lista está vazia
             System.out.print("Lista Vazia");
             System.out.println(); 
             
         }else{
 
     System.out.print("Lista: ");
-    
+    // Continua se atual não for nulo OU se a pilha não estiver vazia
     while (atual != null || topo > -1) {
-
-       
+        
+        
+        // Vai para o nó mais à esquerda possível
         while (atual != null) {
             topo += 1; 
-            pilha[topo] = atual; 
+            pilha[topo] = atual; // Empilha no vetor
             atual = atual.esquerda;
         }
-        atual = pilha[topo];   
-        topo -= 1;
 
+   
+        atual = pilha[topo];   
+        topo -= 1; // remove da pilha
+
+        // Formatação para exibição para evitar o erro de nulo.
         if(atual.esquerda != null){
 
             esq = atual.esquerda.dado.toString();
@@ -131,7 +137,7 @@ public void exibeLista() {
         System.out.print(atual.dadoLetra + " = " + atual.dado + "[" + esq + ", " + dir + "] ");
 
        
-        atual = atual.direita;
+        atual = atual.direita; // move para o nó da direita
     }
     System.out.println(); 
     }
@@ -139,15 +145,16 @@ public void exibeLista() {
 
 
     public void buscar(String elemento) {
-    No[] pilha = new No[maximo];
-    int topo = -1; 
+
+    No[] pilha = new No[maximo]; // pilha de nos
+    int topo = -1;  // topo da pilha
 
     No atual = inicio;
 
-    String esq;
-    String dir;
+    String esq; // no da esquerda
+    String dir; // no da direita
 
-     if(topo == maximo - 1){
+     if(topo == maximo - 1){ //vê se está vazia.
             System.out.print("Lista Vazia");
             System.out.println(); 
             
@@ -156,16 +163,18 @@ public void exibeLista() {
     System.out.print("Lista: ");
     
     while (atual != null || topo > 0) {
-      
+        
+      // Vai para o nó mais à esquerda possível
         while (atual != null) {
             topo += 1; 
-            pilha[topo] = atual; 
+            pilha[topo] = atual;  //Adiciona na pilha
             atual = atual.esquerda;
         }
 
         atual = pilha[topo];  
-        topo -= 1;
-        
+        topo -= 1; // remove da pilha
+
+         // Formatação para exibição para evitar o erro de nulo.
         if(atual.esquerda != null){
 
             esq = atual.esquerda.dado.toString();
@@ -177,12 +186,14 @@ public void exibeLista() {
             dir = atual.direita.dado.toString();
 
         }else{dir = "null";}
+
         
-        if (atual.dadoLetra != null && atual.dadoLetra.equals(elemento)) {
+        if (atual.dadoLetra != null && atual.dadoLetra.equals(elemento)) { // vê se o nó atual é o elemento da busca
             System.out.print(atual.dadoLetra + " = " + atual.dado + "[" + esq + ", " + dir + "] ");
+            break;
         }
   
-        atual = atual.direita;
+        atual = atual.direita; // move para o nó da direita
     }
     System.out.println();
 }
@@ -197,14 +208,14 @@ public void exibeLista() {
         System.out.println("Digite:");
         System.out.println("1 para inserir");
         System.out.println("2 para buscar");
-        System.out.println("3 exebir lista");
+        System.out.println("3 exibir lista");
         System.out.println("0 para sair");
         
         String opcao = scanner.nextLine();
 
        
         if (opcao.equals("1")) {
-            System.out.println("Digite o morse (digite cada morse separado por espaço):");
+            System.out.println("Digite o morse (digite cada letra por espaço exemplo [--- ..]):");
             String morse = scanner.nextLine();
 
             System.out.println("Digite a letra (tudo junto ou separado):");
@@ -236,7 +247,9 @@ public void exibeLista() {
         morse.menu();
 
         // Inserindo elementos na lista
-        //morse.insereElemento(". .- ... --. .--", "ABCDE");
+        //morse.insereElemento(". .- ... --. .--", "A B C D E");
+
+        
 
 
         // Exibindo os elementos da lista
