@@ -1,5 +1,7 @@
 # arvore-morse
 
+integrantes grupo: Millena Gurczakovski
+
 **inserir elementos:** o código pega a frase de elemento (morse), divide entre eles usando espaço como indicador onde começa e termina uma palavra, salva em um lista, o mesmo para a letra.
 Depois começa um for para cada palavra dessa lista de elemento e um outro for para cada letra da palavra do elemnto.
 Para inserir ele vê se o valor seja ponto (menor) para esquerda ou traço (maior) para direita, caso tenha um lugar dispovivel ou seja null, é adicionado ali se não é passado pra proxima folha e continua na proxima letra da palavra até encontrar um valor nulo, também para cada nó criado e aumentado a variavel "maxima" em 1 para poder indicar o valor maximo da pilha para busca.
