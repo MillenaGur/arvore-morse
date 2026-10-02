@@ -9,7 +9,7 @@ int maximo = 0; // quantidade de nó para a busca de listas.
      // Classe interna para representar um nó da lista
     class No {
         String dado; // Valor armazenado no nó
-        String dadoLetra; // Valor da letra do morse
+        String dadoLetra; // Valor armazenado no nó
         No proximo; // Referência para o próximo nó
 
         No esquerda; // Referência para o próximo nó
@@ -146,23 +146,26 @@ public void exibeLista() {
 
     public void buscar(String elemento) {
 
+    String[] letras = elemento.split(" "); // divide as letras.
+    String[] retorno = new String[letras.length]; // resultado
+
+    for (int k = 0; k < letras.length; k++) {  // for para cada letra do morse
+
     No[] pilha = new No[maximo]; // pilha de nos
     int topo = -1;  // topo da pilha
-
     No atual = inicio;
 
-    String esq; // no da esquerda
-    String dir; // no da direita
-
-     if(topo == maximo - 1){ //vê se está vazia.
+    if(topo == maximo - 1){ //vê se está vazia.
             System.out.print("Lista Vazia");
             System.out.println(); 
             
         }else{
 
     System.out.print("Lista: ");
+
     
-    while (atual != null || topo > 0) {
+    
+    while (atual != null || topo >= 0) {
         
       // Vai para o nó mais à esquerda possível
         while (atual != null) {
@@ -174,29 +177,25 @@ public void exibeLista() {
         atual = pilha[topo];  
         topo -= 1; // remove da pilha
 
-         // Formatação para exibição para evitar o erro de nulo.
-        if(atual.esquerda != null){
 
-            esq = atual.esquerda.dado.toString();
-
-        }else{esq = "null";}
-
-        if(atual.direita != null){
-
-            dir = atual.direita.dado.toString();
-
-        }else{dir = "null";}
-
-        
-        if (atual.dadoLetra != null && atual.dadoLetra.equals(elemento)) { // vê se o nó atual é o elemento da busca
-            System.out.print(atual.dadoLetra + " = " + atual.dado + "[" + esq + ", " + dir + "] ");
+        if (atual.dado != null && atual.dado.equals(letras[k])) { // vê se o nó atual é o elemento da busca
+            
+            retorno[k] = atual.dadoLetra;
             break;
         }
   
         atual = atual.direita; // move para o nó da direita
     }
-    System.out.println();
+    
+    }  
+    
 }
+for (int i = 0; i < retorno.length; i++) {
+        if (retorno[i] != null) {
+            System.out.print(retorno[i]); /// imprimir resultado
+        }
+    }
+    System.out.println();
     
     }
 
@@ -224,7 +223,7 @@ public void exibeLista() {
             insereElemento(morse, letra);
 
         } else if (opcao.equals("2")) {
-            System.out.println("Digite a letra:");
+            System.out.println("Digite o morse:");
             String elemento = scanner.nextLine();
             buscar(elemento);
 
